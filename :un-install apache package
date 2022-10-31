@@ -1,0 +1,18 @@
+---
+- hosts: client1
+  become: true
+  become_user: root
+  tasks:
+     - name:un-install apache package
+       yum:
+          name: httpd
+          state: absent
+     - name: create index.html
+       copy:
+          content: "Welcome to ansible tutorials"
+          dest: /var/www/html/index.html
+     - name: stop http service
+       service:
+          name: httpd
+          state: stopped
+          enabled: false
