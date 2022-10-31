@@ -1,0 +1,18 @@
+---
+- hosts: client1
+  become: true
+  become_user: root
+  tasks:
+     - name: install apache package
+       yum:
+          name: httpd
+          state: present
+     - name: create index.html
+       copy:
+          content: "Welcome to ansible tutorials"
+          dest: /var/www/html/index.html
+     - name: http service
+       service:
+          name: httpd
+          state: started
+          enabled: false
