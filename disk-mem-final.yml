@@ -1,0 +1,38 @@
+---
+- name: Print Memory Usage
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Calculate Memory Usage Percentage
+      set_fact:
+        memory_usage_percentage: "{{ (ansible_memtotal_mb | float - ansible_memfree_mb | float) * 100 / ansible_memtotal_mb | float | int }}"
+
+    - name: Print Memory Information
+      debug:
+        msg: "Free Memory: {{ ansible_memfree_mb | int }} MB, Used Memory: {{ ansible_memtotal_mb | int - ansible_memfree_mb | int }} MB, Memory Usage: {{ memory_usage_percentage }}%, {% if memory_usage_percentage | int > 80 %}Memory usage is HIGH!{% else %}Memory usage is Normal{% endif %}"
+    - name: Check Disk Utilization
+      shell: df -h
+      register: df_output
+
+    - name: Display Disk Utilization
+      debug:
+        var: df_output.stdout_lines
+      when: "'%' in df_output.stdout_lines[1]"
+
+    - name: Show Disk Utilization Status
+      debug:
+        msg: "Disk Utilization is HIGH (>80%)"
+      when: "item.split()[4] | int > 80"
+      with_items: "{{ df_output.stdout_lines[1:] }}"
+      loop_control:
+        loop_var: item
+
+    - name: Show Disk Utilization Status
+      debug:
+        msg: "Disk Utilization is NORMAL (<=80%)"
+      when: "item.split()[4] | int <= 80"
+      with_items: "{{ df_output.stdout_lines[1:] }}"
+      loop_control:
+        loop_var: item
+ 
