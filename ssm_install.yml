@@ -1,0 +1,10 @@
+---
+- hosts: test
+  tasks:
+    - name: Install Amazon SSM agent
+      yum:
+        name: amazon-ssm-agent
+        state: present
+    - name: Register system with activation key and activation ID
+      command: sudo -E amazon-ssm-agent -register -code 78obX2gm23zL0xET4g30  -id a85efc24-7939-45f0-8aef-7fc4ce287c85 -region us-east-1
+
