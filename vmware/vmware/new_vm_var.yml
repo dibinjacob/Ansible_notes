@@ -1,0 +1,23 @@
+---
+# vCenter connection variables
+vcenter_username: "administrator@vsphere.local"
+vcenter_password: "P@ssw0rd"
+
+# VM configuration variables
+vm_name: "Ubuntu2004"
+vm_datacenter: "ansible_automation_ds"
+vm_folder: "esxi_server"
+vm_cpu_count: 2
+vm_memory_mb: 4096
+vm_num_cpus: 2
+vm_vcpu_count: 2
+vm_disk_size_gb: 20
+vm_disk_type: thin
+vm_datastore: "Test_Datastore"
+
+# Network configuration variables
+vm_network_label: "EPG"
+vm_vlan_id: 100
+
+# ISO name
+iso_name: "ubuntu-22.04-desktop-amd64.iso"

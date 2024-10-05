@@ -1,0 +1,51 @@
+    1  cd vmware/
+    2  ls -l
+    3  vi inventory.yml 
+    4  exit
+    5  mkdir vmware
+    6  cd vmware
+    7  vi inventory.yml
+    8  ansible-galaxy collection install community.vmware
+    9  ls -l
+   10  vi ansib.cfg
+   11  vim vmware_inventory.yml
+   12  apt  install vim-gtk3
+   13  vim.gtk3 vmware_inventory.yml
+   14  ansible-inventory -i vmware_inventory.yml --list
+   15  pip install --upgrade ansible
+   16  yamllint vmware_inventory.yml
+   17  apt install yamllint
+   18  yamllint vmware_inventory.yml
+   19  ls -l
+   20  cat vmware_inventory.yml 
+   21  vim  vmware_inventory.yml 
+   22  yamllint vmware_inventory.yml
+   23  vim  vmware_inventory.yml 
+   24  yamllint vmware_inventory.yml
+   25  ansible-inventory -i vmware_inventory.yml --list
+   26  yamllint vmware_inventory.yml
+   27  ansible-inventory -i /root/vmware/vmware_inventory.yml --list
+   28  ansible-galaxy collection list
+   29  ansible-inventory -i /root/vmware/vmware_inventory.yml --list -vvv
+   30  cat -A vmware_inventory.yml
+   31  file vmware_inventory.yml
+   32  vim .vmrc
+   33  file vmware_inventory.yml
+   34  vim  vmware_inventory.yml 
+   35  clear
+   36  vi inventory.yml 
+   37  cd vmware/
+   38  mv .vmrc .vimrc
+   39  cd vmware/
+   40  file vmware_inventory.yml
+   41  ls -l
+   42  ls -la
+   43  cat .vimrc 
+   44  ls -l vmware_inventory.yml
+   45  ansible-inventory -i vmware_inventory.yml --list -vvv
+   46  ssh-copy-id root@192.168.52.151
+   47  ping  192.168.52.151
+   48  ssh-copy-id root@192.168.52.151
+   49  cd vmware/
+   50  ls -l
+   51  history>>vmwaresteps.txt

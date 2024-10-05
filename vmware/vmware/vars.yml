@@ -1,0 +1,33 @@
+---
+# vCenter credentials
+vcenter:
+  hostname: "192.168.52.150"
+  username: "administrator@vsphere.local"
+  password: "P@ssw0rd"
+  port: 443
+  validate_certs: false
+
+# Common variables
+vm_wait_for_ssh_time: 10
+vm_wait_for_ip_connection: "yes"
+vm_ansible_user_name: "ansible"
+vm_ansible_user_password: "P@ssw0rd"
+
+# VM configuration variables
+vm_datacenter: "ansible_automation_ds"
+vm_folder: "esxi_server"
+vm_name: "Ubuntu2004"
+vm_template: "ubuntu22"
+vm_num_cpus: 2
+vm_memory_mb: 4096
+vm_disk_size_gb: 20
+vm_disk_type: thin
+vm_datastore: "Test_Datastore"
+vm_network_label: "EPG"
+vm_vlan_id: 100
+iso_name: "ubuntu-22.04-desktop-amd64.iso"
+vm_net1_ip_address: "192.168.52.150"
+vm_os_family: "Ubuntu"
+vm_user_name_list: ["user1", "user2"]
+vm_user_password: "P@ssw0rd"
+vm_guest_id: "ubuntu64Guest"

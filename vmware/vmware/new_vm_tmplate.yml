@@ -1,0 +1,85 @@
+---
+- name: "Provision VM from Template"
+  hosts: localhost
+  gather_facts: no
+  become: no
+  connection: local   
+  tasks:
+    - name: Load variables
+      include_vars:
+        file: vars.yml
+
+    - name: Debug vm_datacenter variable
+      debug:
+        msg: "vm_datacenter: {{ vm_datacenter }}"
+
+    - name: Deploy new VM in vCenter
+      vmware_guest:
+        hostname: "{{ vcenter.hostname }}"
+        username: "{{ vcenter.username }}"
+        password: "{{ vcenter.password }}"
+        validate_certs: false
+        datacenter: "{{ vm_datacenter }}"
+        folder: "{{ vm_folder }}"
+        name: "{{ vm_name }}"
+        template: "{{ vm_template }}"
+        state: poweredon
+        hardware:
+          num_cpus: "{{ vm_num_cpus }}"
+          memory_mb: "{{ vm_memory_mb }}"
+        disk:
+          - size_gb: "{{ vm_disk_size_gb }}"
+            type: "{{ vm_disk_type }}"
+            datastore: "{{ vm_datastore }}"
+        networks:
+          - name: "{{ vm_network_label }}"
+            vlan_id: "{{ vm_vlan_id }}"
+        cdrom:
+          - iso_path: "{{ iso_name }}"
+            unit_number: 0
+        guest_id: "ubuntu64Guest"
+      tags: provisionvmfromtemplate
+
+    - name: Waits for SSH (VM UP and Running)
+      wait_for:
+        host: "{{ vm_net1_ip_address }}"
+        port: 22
+        delay: "{{ vm_wait_for_ssh_time }}"
+        timeout: 300
+        state: started
+      when: vm_wait_for_ip_connection == "yes"
+
+    - name: Add newly created VMs to a host group
+      no_log: true
+      add_host:
+        name: "{{ vm_net1_ip_address }}"
+        groups: "vmwarenewvms"
+        ansible_ssh_extra_args: ' -o StrictHostKeyChecking=no '
+        ansible_user: "{{ vm_ansible_user_name }}"
+        ansible_password: "{{ vm_ansible_user_password }}"
+        var_vm_os_family: "{{ vm_os_family }}"
+        var_vm_user_name_list: "{{ vm_user_name_list }}"
+        var_vm_user_password: "{{ vm_user_password }}"
+      when: vm_os_family == "Ubuntu"
+
+- name: Ubuntu VM Post-Provisioning Configurations
+  hosts: vmwarenewvms
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: Waiting for SSH
+      wait_for:
+        host: "{{ inventory_hostname }}"
+        port: 22
+        delay: 1
+        timeout: 300
+        state: started
+      when: var_vm_os_family is defined
+      become: no
+      vars:
+        ansible_connection: local
+
+    - name: New VM post-provisioning configurations
+      debug:
+        msg: "You can include additonal tasks to execute inside the new VM as post provisioning configurations"
+      when: var_vm_os_family is defined

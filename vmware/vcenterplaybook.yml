@@ -1,0 +1,17 @@
+---
+- name: Connect to vCenter
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: Connect to vCenter
+      vmware_guest:
+        hostname: "{{ vcenter.hostname }}"
+        username: "{{ vcenter.username }}"
+        password: "{{ vcenter.password }}"
+        port: "{{ vcenter.port }}"
+        validate_certs: "{{ vcenter.validate_certs }}"
+        name: "Your_VM_Name"  # Specify the name of the VM you want to manage
+      delegate_to: localhost
+

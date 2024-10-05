@@ -1,0 +1,25 @@
+---
+- name: Check VMware vCenter Connection
+  hosts: localhost
+  gather_facts: no
+  vars:
+    vcenter_hostname: "192.168.52.150"  # Change to your vCenter IP
+    vcenter_username: "administrator@vsphere.local"  # Change as needed
+    vcenter_password: "P@ssw0rd"  # Use a secure method for managing passwords
+    vcenter_port: 443
+    validate_certs: false
+
+  tasks:
+    - name: Gather vCenter datacenter information
+      community.vmware.vmware_datacenter_info:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        port: "{{ vcenter_port }}"
+        validate_certs: "{{ validate_certs }}"
+      register: datacenter_info
+
+    - name: Display connection status
+      debug:
+        var: datacenter_info
+

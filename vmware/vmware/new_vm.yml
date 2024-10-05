@@ -1,0 +1,34 @@
+---
+- name: Create a new Ubuntu 22.04 VM in VMware
+  hosts: localhost
+  gather_facts: no
+
+  vars_files:
+    - /root/vmware/new_vm_var.yml
+
+  tasks:
+  - name: Create a new VM
+    vmware_guest:
+      hostname: "192.168.52.150"
+      username: "{{ vcenter_username }}"
+      password: "{{ vcenter_password }}"
+      validate_certs: false
+      datacenter: "{{ vm_datacenter }}"
+      folder: "{{ vm_folder }}"
+      name: "{{ vm_name }}"
+      state: poweredon
+      hardware:
+        num_cpus: "{{ vm_num_cpus }}"
+        memory_mb: "{{ vm_memory_mb }}"
+      disk:
+        - size_gb: "{{ vm_disk_size_gb }}"
+          type: "{{ vm_disk_type }}"
+          datastore: "{{ vm_datastore }}"
+      networks:
+        - name: "{{ vm_network_label }}"
+          vlan_id: "{{ vm_vlan_id }}"
+      cdrom:
+        - iso_path: "{{ iso_name }}"
+          unit_number: 0
+          controller_key: 200
+      guest_id: "ubuntu64Guest"
