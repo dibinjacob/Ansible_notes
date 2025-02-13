@@ -1,0 +1,7 @@
+---
+  - name: Understanding the Debug modulde with msg.
+    hosts: today
+    gather_facts: false
+    tasks:
+    - name: Print a msg
+      debug: msg="Welcome to Ansible Class"

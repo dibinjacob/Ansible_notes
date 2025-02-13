@@ -1,0 +1,53 @@
+1.
+---
+  - name: Understanding the Debug modulde with msg.
+    hosts: today
+    gather_facts: false
+    tasks:
+    - name: Print a msg
+      debug: 
+        msg:
+         -  "Welcome to Ansible Class"
+         -  " Welcome to Automation World"
+         - " You all are genius"
+2.
+---
+  - name: Understanding debug module with var
+    hosts: today
+    tasks:
+      - name: Display msg from variable
+        debug:
+          msg: 
+           -  " This is my Node Name {{ inventory_hostname }} "
+3.
+---
+  - name: Learning debug module Verbosity
+    hosts: localhost
+    tasks:
+      - name: Vebosity default
+        debug:
+          msg: "this is default verbosity, value is 0"
+      - name: verbosity level 1
+        debug:
+          msg: " This is verbosity level 1"
+          verbosity: 1
+      - name: verbosity level 2
+        debug:
+          msg: " This is verbosity level 2"
+          verbosity: 2
+4.
+---
+  - name: This is my First Play
+    hosts: today
+    become: yes
+    tasks: 
+    - name: Creating User Corona
+      user:
+        name: corona
+        state: absent
+        uid: 2020
+    - name: Creating User john
+      user:
+        name: john
+        comment: John Doe
+        state: absent
